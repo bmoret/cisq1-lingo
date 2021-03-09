@@ -28,7 +28,7 @@ class FeedbackTest {
     @Test
     @DisplayName("word is invalid when to many or to few letters are given and when none alphabetic characters are given")
     void wordIsInvalid() {
-        Feedback feedback = new Feedback("@woord", List.of(Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID));
+        Feedback feedback = new Feedback("@oord", List.of(Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID));
 
         assertFalse(feedback.isWordValid());
     }
