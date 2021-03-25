@@ -2,6 +2,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,6 +22,24 @@ public class Feedback {
 
     public boolean isWordValid() {
         return Mark.INVALID != mark.stream().filter(e -> !e.equals(Mark.INVALID)).findFirst().orElse(Mark.INVALID);
+    }
+
+    public List<String> giveHint(List<String> previousHint, String wordToGuess) {
+        int charactar = 0;
+        if (previousHint == null || previousHint.isEmpty()) {
+            previousHint = new ArrayList<>();
+            for (int x = 0; x<wordToGuess.length(); x++) {
+                previousHint.add("");
+            }
+        }
+        for (Mark mark : this.mark) {
+            if (mark.equals(Mark.CORRECT)) {
+                previousHint.add(charactar, wordToGuess.charAt(charactar)+"");
+                previousHint.remove(charactar+1);
+            }
+            charactar += 1;
+        }
+        return previousHint;
     }
 
     @Override
