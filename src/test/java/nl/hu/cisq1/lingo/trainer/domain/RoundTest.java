@@ -1,13 +1,11 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -15,6 +13,20 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
+
+    @Test
+    @DisplayName("Testing if the hint is updated, after successive guesses")
+    void hintIsSaved() {
+        Round round = new Round("woord");
+
+        round.makeGuess("aaard");
+
+        assertEquals(List.of("","","","r","d"), round.getHint());
+
+        round.makeGuess("wooaa");
+
+        assertEquals(List.of("w","o","o","r","d"), round.getHint());
+    }
 
     @Test
     @DisplayName("Testing if a round is won, after a correct guess")

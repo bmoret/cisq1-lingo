@@ -87,6 +87,14 @@ public class Round {
         return new Feedback(guess, mark);
     }
 
+    public List<Feedback> getGuesses() {
+        return guesses;
+    }
+
+    public List<String> getHint() {
+        return hint;
+    }
+
     public State getState() {
         return state;
     }
