@@ -39,7 +39,7 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("word is valid when none of its letters are alphabetic characters and has the right amount of letters")
+    @DisplayName("word is valid when all of its letters are alphabetic characters and has the right amount of letters")
     void wordIsNotInvalid() {
         Feedback feedback = new Feedback("woord", List.of(Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
 

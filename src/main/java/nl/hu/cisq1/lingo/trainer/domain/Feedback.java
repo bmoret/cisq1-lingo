@@ -2,13 +2,26 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Feedback {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "feedback_id")
+    private Long id;
     private String attempt;
+    @Enumerated
+    @ElementCollection(targetClass = Mark.class)
     private List<Mark> mark;
+    @ManyToOne
+    @JoinColumn(name = "round_id")
+    private Round round;
+
+    public Feedback() {}
 
     public Feedback(String attempt, List<Mark> mark) throws InvalidFeedbackException {
         if (attempt.length() != mark.size()) throw new InvalidFeedbackException();
