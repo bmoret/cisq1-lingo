@@ -99,4 +99,55 @@ class FeedbackTest {
         );
     }
 
+    @Test
+    void testEqualsTrue() {
+        Feedback feedback1 = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT));
+        Feedback feedback2 = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT));
+
+        assertEquals(feedback1, feedback2);
+    }
+
+    @Test
+    void testEqualsTrueSame() {
+        Feedback feedback1 = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT));
+
+        assertEquals(feedback1, feedback1);
+    }
+
+    @Test
+    void testEqualsFalseNull() {
+        Feedback feedback1 = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT));
+        Feedback feedback2 = null;
+
+        assertNotEquals(feedback1, feedback2);
+    }
+
+    @Test
+    void testEqualsFalseMark() {
+        Feedback feedback1 = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT));
+        Feedback feedback2 = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.CORRECT));
+
+        assertNotEquals(feedback1, feedback2);
+    }
+
+    @Test
+    void testEqualsFalseWord() {
+        Feedback feedback1 = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT));
+        Feedback feedback2 = new Feedback("hallo", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT));
+
+        assertNotEquals(feedback1, feedback2);
+    }
+
+    @Test
+    void testToString() {
+        String expected = "Feedback{" +
+                "attempt='woord'" +
+                ", mark=" + List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT) +
+                ", round=" + null +
+                '}';
+        Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT));
+
+        assertEquals(expected, feedback.toString());
+    }
+
 }

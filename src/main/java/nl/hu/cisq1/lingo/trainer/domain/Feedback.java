@@ -60,7 +60,7 @@ public class Feedback {
         if (this == o) return true;
         if (!(o instanceof Feedback)) return false;
         Feedback feedback = (Feedback) o;
-        return Objects.equals(attempt, feedback.attempt) && Objects.equals(mark, feedback.mark);
+        return Objects.equals(attempt, feedback.attempt) && Objects.equals(mark, feedback.mark) && Objects.equals(round, feedback.round);
     }
 
     @Override
@@ -73,6 +73,7 @@ public class Feedback {
         return "Feedback{" +
                 "attempt='" + attempt + '\'' +
                 ", mark=" + mark +
+                ", round=" + round +
                 '}';
     }
 }
