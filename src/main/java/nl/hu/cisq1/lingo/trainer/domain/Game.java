@@ -18,7 +18,7 @@ public class Game {
 
     public Game() {}
 
-    public Round newRound(String wordToGuess) {
+    public Round newRound(String wordToGuess) throws IllegalArgumentException {
         if (!isFinished()) {
             List<Round> activeRounds = this.rounds.stream().filter(e -> e.getState() == State.PLAYING).collect(Collectors.toList());
             if (activeRounds.size() == 0) {
@@ -31,7 +31,7 @@ public class Game {
         throw new IllegalArgumentException("Game is finished, no new round started");
     }
 
-    public Round makeGuess(String guess) {
+    public Round makeGuess(String guess) throws IllegalArgumentException {
         if (!isFinished()) {
             List<Round> activeRounds = this.rounds.stream().filter(e -> e.getState() == State.PLAYING).collect(Collectors.toList());
             if (activeRounds.size() == 1) {
