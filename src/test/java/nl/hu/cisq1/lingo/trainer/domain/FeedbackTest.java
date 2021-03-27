@@ -63,12 +63,10 @@ class FeedbackTest {
     }
 
     private static Stream<Arguments> provideListsForGiveHint() {
-        List<String> expected = new ArrayList<>();
-        expected.add("");
-        expected.add("o");
-        expected.add("o");
-        expected.add("r");
-        expected.add("d");
+        List<String> expectedA = List.of("","o","o","r","d");
+        List<String> expectedB = List.of("","*","o","r","d");
+        List<String> expectedC = List.of("","o","o","r","d");
+
 
         List<String> a1 = new ArrayList<>();
         a1.add("");
@@ -77,11 +75,11 @@ class FeedbackTest {
         a1.add("");
         a1.add("");
 
-        Feedback a2 = new Feedback("beerd", List.of(Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT));
+        Feedback a2 = new Feedback("bwerd", List.of(Mark.ABSENT, Mark.PRESENT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT));
 
         List<String> b1 = null;
 
-        Feedback b2 = new Feedback("boord", List.of(Mark.ABSENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        Feedback b2 = new Feedback("bword", List.of(Mark.ABSENT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
 
         List<String> c1 = new ArrayList<>();
         c1.add("");
@@ -93,9 +91,9 @@ class FeedbackTest {
         Feedback c2 = new Feedback("boert", List.of(Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT));
 
         return Stream.of(
-                Arguments.of(a1, a2, expected),
-                Arguments.of(b1, b2, expected),
-                Arguments.of(c1, c2, expected)
+                Arguments.of(a1, a2, expectedA),
+                Arguments.of(b1, b2, expectedB),
+                Arguments.of(c1, c2, expectedC)
         );
     }
 

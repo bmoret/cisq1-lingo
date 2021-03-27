@@ -38,7 +38,7 @@ public class Feedback {
     }
 
     public List<String> giveHint(List<String> previousHint, String wordToGuess) {
-        int charactar = 0;
+        int charactarIndex = 0;
         if (previousHint == null || previousHint.isEmpty()) {
             previousHint = new ArrayList<>();
             for (int x = 0; x<wordToGuess.length(); x++) {
@@ -46,11 +46,17 @@ public class Feedback {
             }
         }
         for (Mark mark : this.mark) {
-            if (mark.equals(Mark.CORRECT)) {
-                previousHint.add(charactar, wordToGuess.charAt(charactar)+"");
-                previousHint.remove(charactar+1);
+            if (mark.equals(Mark.PRESENT)) {
+                if (previousHint.get(charactarIndex).isEmpty()) {
+                    previousHint.add(charactarIndex, "*");
+                    previousHint.remove(charactarIndex + 1);
+                }
             }
-            charactar += 1;
+            if (mark.equals(Mark.CORRECT)) {
+                previousHint.add(charactarIndex, wordToGuess.charAt(charactarIndex)+"");
+                previousHint.remove(charactarIndex+1);
+            }
+            charactarIndex += 1;
         }
         return previousHint;
     }
