@@ -77,7 +77,7 @@ public class Round {
                 if (wordToGuessTemp.contains(guessTemp.get(0))) {
                     mark.add(x, Mark.PRESENT);
                     guessTemp.remove(String.valueOf(guess.charAt(x)));
-                    wordToGuessTemp.remove(String.valueOf(wordToGuess.charAt(x)));
+                    wordToGuessTemp.remove(String.valueOf(guess.charAt(x)));
                 } else {
                     mark.add(x, Mark.ABSENT);
                     guessTemp.remove(String.valueOf(guess.charAt(x)));
