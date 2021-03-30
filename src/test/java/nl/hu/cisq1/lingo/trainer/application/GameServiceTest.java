@@ -5,28 +5,32 @@ import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.Round;
 import nl.hu.cisq1.lingo.words.application.WordService;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class GameServiceTest {
-    WordService wordService = mock(WordService.class);
-    SpringGameRepository gameRepository = mock(SpringGameRepository.class);
-    GameService gameService = new GameService(gameRepository, wordService);
+    static WordService wordService = mock(WordService.class);
+    static SpringGameRepository gameRepository = mock(SpringGameRepository.class);
+    static GameService gameService = new GameService(gameRepository, wordService);
 
-    Game inRound1Game;
-    Game betweenRound1And2Game;
-    Game betweenRound2And3Game;
-    Game lostGame;
+    static Game inRound1Game;
+    static Game betweenRound1And2Game;
+    static Game betweenRound2And3Game;
+    static Game lostGame;
 
-    @BeforeEach
-    void beforeEach() {
+    @BeforeAll
+    static void beforeAll() {
         when(wordService.provideRandomWord(5)).thenReturn("apple");
         when(wordService.provideRandomWord(6)).thenReturn("though");
         when(wordService.provideRandomWord(7)).thenReturn("thunder");
@@ -82,16 +86,24 @@ class GameServiceTest {
         );
     }
 
-    @Test
-    void getGameById() {
+    @ParameterizedTest
+    @MethodSource("provideGamesForGetGame")
+    void getGameById(Game game, Long id) {
         try {
-            assertEquals(inRound1Game, gameService.getGameById(1L));
-            assertEquals(betweenRound1And2Game, gameService.getGameById(2L));
-            assertEquals(betweenRound2And3Game, gameService.getGameById(3L));
-            assertEquals(lostGame, gameService.getGameById(4L));
+            assertEquals(game, gameService.getGameById(id));
         } catch (NotFoundException e) {
             fail();
         }
+    }
+
+    private static Stream<Arguments> provideGamesForGetGame() {
+        return Stream.of(
+                Arguments.of(inRound1Game, 1L),
+                Arguments.of(betweenRound1And2Game, 2L),
+                Arguments.of(betweenRound2And3Game, 3L),
+                Arguments.of(lostGame, 4L)
+        );
+
     }
 
     @Test
@@ -136,6 +148,7 @@ class GameServiceTest {
             assertEquals(1,game.getRounds().size());
             Round round = gameService.startNewRound(2L);
             assertTrue(2 == game.getRounds().size() && 0 == round.getGuesses().size() && round.getWordToGuess().equals("though"));
+            gameService.guess(2L, "though");
         } catch (NotFoundException | IllegalArgumentException e) {
             fail();
         }
@@ -164,6 +177,7 @@ class GameServiceTest {
             assertEquals(List.of("a","p","p","*","*"), gameService.guess(1L, "appel"));
             assertEquals(List.of("a","p","p","l","e"), gameService.guess(1L, "apple"));
             assertEquals(1, gameService.getGameById(1L).getScore());
+            gameService.startNewRound(1L); // new round has to be started, so that the object is set back to the state it was in before this test
 
         } catch (NotFoundException | IllegalArgumentException e) {
             fail();

@@ -39,7 +39,7 @@ public class Feedback {
 
     public List<String> giveHint(List<String> previousHint, String wordToGuess) {
         int charactarIndex = 0;
-        if (previousHint == null || previousHint.isEmpty()) {
+        if (previousHint == null) {
             previousHint = new ArrayList<>();
             for (int x = 0; x<wordToGuess.length(); x++) {
                 previousHint.add("");

@@ -28,6 +28,13 @@ public class Round {
     public Round(String wordToGuess) {
         this.wordToGuess = wordToGuess;
         this.state = State.PLAYING;
+        for (int x = 0; x < wordToGuess.length(); x++) {
+            if (x == 0) {
+                hint.add(wordToGuess.substring(0,1));
+            } else {
+                hint.add("");
+            }
+        }
     }
 
     public Feedback makeGuess(String guess) {

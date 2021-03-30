@@ -21,7 +21,7 @@ class RoundTest {
 
         round.makeGuess("aaard");
 
-        assertEquals(List.of("","","","r","d"), round.getHint());
+        assertEquals(List.of("w","","","r","d"), round.getHint());
 
         round.makeGuess("wooaa");
 
