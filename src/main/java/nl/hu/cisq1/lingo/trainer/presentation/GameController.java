@@ -57,11 +57,11 @@ public class GameController {
 
     @PatchMapping(path = "/{id}")
     public ResponseEntity<RoundDTOResponse> startRound(@PathVariable Long id) throws NotFoundException {
-        return new ResponseEntity<>(new RoundDTOResponse(SERVICE.startNewRound(id)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new RoundDTOResponse(SERVICE.startNewRound(id)), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/{id}/guess")
     public ResponseEntity<RoundDTOResponse> makeGuess(@PathVariable Long id, @RequestBody GuessDTORequest DTO) throws NotFoundException {
-        return new ResponseEntity<>(new RoundDTOResponse(SERVICE.guess(id, DTO.guess)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new RoundDTOResponse(SERVICE.guess(id, DTO.guess)), HttpStatus.OK);
     }
 }

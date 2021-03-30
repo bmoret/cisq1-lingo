@@ -40,11 +40,12 @@ public class Round {
     public Feedback makeGuess(String guess) {
         if (state.equals(State.PLAYING)) {
             Feedback feedback = getFeedback(guess);
-            if (feedback.isWordValid()) {
-                guesses.add(feedback);
-                feedback.setRound(this);
-                hint = feedback.giveHint(hint, wordToGuess);
+            if (!feedback.isWordValid()) {
+                throw new IllegalArgumentException("Guess is not the right length or contains characters that are not allowed");
             }
+            guesses.add(feedback);
+            feedback.setRound(this);
+            hint = feedback.giveHint(hint, wordToGuess);
             if (feedback.isWordGuessed()) {
                 state = State.WON;
             } else if (guesses.size() == 5) {

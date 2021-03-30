@@ -14,7 +14,7 @@ public class Game {
     private int score;
     private Boolean isFinished = false;
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
-    private List<Round> rounds = new ArrayList<>();;
+    private List<Round> rounds = new ArrayList<>();
 
     public Game() {}
 
@@ -51,6 +51,7 @@ public class Game {
 
     public Round getActiveRound() throws IllegalArgumentException {
         List<Round> activeRounds = this.rounds.stream().filter(e -> e.getState() == State.PLAYING).collect(Collectors.toList());
+        System.out.println(activeRounds);
         if (activeRounds.size() == 1) {
             return activeRounds.get(0);
         }

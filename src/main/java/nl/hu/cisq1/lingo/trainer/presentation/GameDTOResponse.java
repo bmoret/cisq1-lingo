@@ -14,7 +14,6 @@ public class GameDTOResponse {
         this.id = game.getId();
         this.score = game.getScore();
         this.isFinished = game.isFinished();
-        System.out.println(game.getActiveRound());
         if (game.getActiveRound() != null) {
             this.activeRound = new RoundDTOResponse(game.getActiveRound());
         }
