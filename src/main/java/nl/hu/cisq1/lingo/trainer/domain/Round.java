@@ -17,9 +17,9 @@ public class Round {
     @ElementCollection
     private List<String> hint = new ArrayList<>();
 
-    @OneToMany(mappedBy = "round")
+    @OneToMany(mappedBy = "round", cascade = CascadeType.ALL)
     private List<Feedback> guesses = new ArrayList<>();
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "game_id")
     private Game game;
 
@@ -42,6 +42,7 @@ public class Round {
             Feedback feedback = getFeedback(guess);
             if (feedback.isWordValid()) {
                 guesses.add(feedback);
+                feedback.setRound(this);
                 hint = feedback.giveHint(hint, wordToGuess);
             }
             if (feedback.isWordGuessed()) {
@@ -108,5 +109,37 @@ public class Round {
 
     public String getWordToGuess() {
         return wordToGuess;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setWordToGuess(String wordToGuess) {
+        this.wordToGuess = wordToGuess;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void setHint(List<String> hint) {
+        this.hint = hint;
+    }
+
+    public void setGuesses(List<Feedback> guesses) {
+        this.guesses = guesses;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

@@ -17,7 +17,7 @@ public class Feedback {
     @Enumerated
     @ElementCollection(targetClass = Mark.class)
     private List<Mark> mark;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "round_id")
     private Round round;
 
@@ -46,19 +46,55 @@ public class Feedback {
             }
         }
         for (Mark mark : this.mark) {
+            if (previousHint.get(charactarIndex).equals("*")) {
+                previousHint.remove(charactarIndex);
+                previousHint.add(charactarIndex, "");
+            }
             if (mark.equals(Mark.PRESENT)) {
                 if (previousHint.get(charactarIndex).isEmpty()) {
+                    previousHint.remove(charactarIndex);
                     previousHint.add(charactarIndex, "*");
-                    previousHint.remove(charactarIndex + 1);
                 }
             }
             if (mark.equals(Mark.CORRECT)) {
+                previousHint.remove(charactarIndex);
                 previousHint.add(charactarIndex, wordToGuess.charAt(charactarIndex)+"");
-                previousHint.remove(charactarIndex+1);
             }
             charactarIndex += 1;
         }
         return previousHint;
+    }
+
+    public String getAttempt() {
+        return attempt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAttempt(String attempt) {
+        this.attempt = attempt;
+    }
+
+    public List<Mark> getMark() {
+        return mark;
+    }
+
+    public void setMark(List<Mark> mark) {
+        this.mark = mark;
+    }
+
+    public Round getRound() {
+        return round;
+    }
+
+    public void setRound(Round round) {
+        this.round = round;
     }
 
     @Override
