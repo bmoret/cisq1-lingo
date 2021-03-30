@@ -58,14 +58,14 @@ public class GameService {
         return round;
     }
 
-    public List<String> guess(Long id, String guess) throws NotFoundException, IllegalArgumentException {
+    public Round guess(Long id, String guess) throws NotFoundException, IllegalArgumentException {
         Game game = getGameById(id);
 
         Round round = game.makeGuess(guess);
 
         REPOSITORY.save(game);
 
-        return round.getHint();
+        return round;
     }
 
 

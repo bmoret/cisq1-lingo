@@ -173,9 +173,10 @@ class GameServiceTest {
     @Test
     void guess() {
         try {
+            inRound1Game.getActiveRound();
 
-            assertEquals(List.of("a","p","p","*","*"), gameService.guess(1L, "appel"));
-            assertEquals(List.of("a","p","p","l","e"), gameService.guess(1L, "apple"));
+            assertEquals(inRound1Game.getActiveRound(), gameService.guess(1L, "appel"));
+            assertEquals(inRound1Game.getActiveRound(), gameService.guess(1L, "apple"));
             assertEquals(1, gameService.getGameById(1L).getScore());
             gameService.startNewRound(1L); // new round has to be started, so that the object is set back to the state it was in before this test
 
