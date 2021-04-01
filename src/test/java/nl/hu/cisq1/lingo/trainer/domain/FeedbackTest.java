@@ -64,7 +64,7 @@ class FeedbackTest {
 
     private static Stream<Arguments> provideListsForGiveHint() {
         List<String> expectedA = List.of("","o","o","r","d");
-        List<String> expectedB = List.of("","*","o","r","d");
+        List<String> expectedB = List.of("","","o","r","d");
         List<String> expectedC = List.of("","o","o","r","d");
 
 

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static nl.hu.cisq1.lingo.trainer.domain.Mark.CORRECT;
+import static nl.hu.cisq1.lingo.trainer.domain.Mark.INVALID;
+
 @Entity
 public class Feedback {
     @Id
@@ -21,7 +24,8 @@ public class Feedback {
     @JoinColumn(name = "round_id")
     private Round round;
 
-    public Feedback() {}
+    public Feedback() {
+    }
 
     public Feedback(String attempt, List<Mark> mark) throws InvalidFeedbackException {
         if (attempt.length() != mark.size()) throw new InvalidFeedbackException();
@@ -30,35 +34,27 @@ public class Feedback {
     }
 
     public boolean isWordGuessed() {
-        return Mark.CORRECT == mark.stream().filter(e -> !e.equals(Mark.CORRECT)).findFirst().orElse(Mark.CORRECT);
+        return mark.stream()
+                .allMatch(e -> e.equals(CORRECT));
     }
 
     public boolean isWordValid() {
-        return Mark.INVALID != mark.stream().filter(e -> !e.equals(Mark.INVALID)).findFirst().orElse(Mark.INVALID);
+        return mark.stream()
+                .noneMatch(e -> e.equals(INVALID));
     }
 
     public List<String> giveHint(List<String> previousHint, String wordToGuess) {
         int charactarIndex = 0;
         if (previousHint == null) {
             previousHint = new ArrayList<>();
-            for (int x = 0; x<wordToGuess.length(); x++) {
+            for (int x = 0; x < wordToGuess.length(); x++) {
                 previousHint.add("");
             }
         }
         for (Mark mark : this.mark) {
-            if (previousHint.get(charactarIndex).equals("*")) {
+            if (mark.equals(CORRECT)) {
                 previousHint.remove(charactarIndex);
-                previousHint.add(charactarIndex, "");
-            }
-            if (mark.equals(Mark.PRESENT)) {
-                if (previousHint.get(charactarIndex).isEmpty()) {
-                    previousHint.remove(charactarIndex);
-                    previousHint.add(charactarIndex, "*");
-                }
-            }
-            if (mark.equals(Mark.CORRECT)) {
-                previousHint.remove(charactarIndex);
-                previousHint.add(charactarIndex, wordToGuess.charAt(charactarIndex)+"");
+                previousHint.add(charactarIndex, wordToGuess.charAt(charactarIndex) + "");
             }
             charactarIndex += 1;
         }
