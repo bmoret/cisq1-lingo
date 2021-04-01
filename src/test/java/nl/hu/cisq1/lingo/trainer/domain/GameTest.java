@@ -14,8 +14,9 @@ class GameTest {
 
         Round round = game.newRound("woord");
 
-        assertTrue(game.getRounds().size() == 1);
+        assertEquals(1, game.getRounds().size());
         assertTrue(game.getRounds().contains(round));
+        assertEquals(game, round.getGame());
     }
 
     @Test

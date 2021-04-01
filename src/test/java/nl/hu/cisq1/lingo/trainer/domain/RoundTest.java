@@ -33,8 +33,9 @@ class RoundTest {
     void gameIsWonAfterOneGuess() {
         Round round = new Round("woord");
 
-        round.makeGuess("woord");
+        Feedback feedback = round.makeGuess("woord");
 
+        assertEquals(round, feedback.getRound());
         assertEquals(State.WON, round.getState());
     }
 
@@ -63,6 +64,17 @@ class RoundTest {
     }
 
     @Test
+    @DisplayName("Testing if a invalid guess returns an IllegalArgumentException")
+    void gameThrowsExceptionAfterInvalidGuess() {
+        Round round = new Round("woord");
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> round.makeGuess("asdoor")
+        );
+    }
+
+    @Test
     @DisplayName("Testing if a round is won, even after guessing more than five times because of invalid guesses")
     void gameIsWonAfterInvalidGuesses() {
         Round round = new Round("woord");
@@ -71,8 +83,12 @@ class RoundTest {
         round.makeGuess("doord");
         round.makeGuess("doord");
         round.makeGuess("doord");
-        round.makeGuess("asdoor");
-        round.makeGuess("@door");
+        try {
+            round.makeGuess("asdoor");
+        } catch (IllegalArgumentException ignored) {}
+        try {
+            round.makeGuess("@door");
+        } catch (IllegalArgumentException ignored) {}
         round.makeGuess("woord");
 
         assertEquals(State.WON, round.getState());
