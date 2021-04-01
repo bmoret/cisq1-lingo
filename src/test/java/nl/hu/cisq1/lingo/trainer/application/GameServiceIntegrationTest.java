@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Import(CiTestConfiguration.class)
@@ -26,8 +26,66 @@ public class GameServiceIntegrationTest {
     @Autowired
     private GameService service;
 
-    @Test
-    void guessTest() throws NotFoundException {
+    @Transactional
+    @ParameterizedTest
+    @MethodSource("provideGuesses")
+    void guessTest(String guess, List<String> hint, State state) {
+        Game game = service.startNewGame();
+
+        Round round = null;
+        try {
+            round = service.guess(game.getId(), guess);
+        } catch (NotFoundException e) {
+            fail();
+        }
+
+        assertEquals(hint, round.getHint());
+        assertEquals(state, round.getState());
     }
+
+    private static Stream<Arguments> provideGuesses() {
+        return Stream.of(
+                Arguments.of("appel", List.of("p","","","",""),State.PLAYING),
+                Arguments.of("pizza", List.of("p","i","z","z","a"),State.WON),
+                Arguments.of("bijna", List.of("p","i","","","a"),State.PLAYING),
+                Arguments.of("pinda", List.of("p","i","","","a"),State.PLAYING),
+                Arguments.of("zzzzz", List.of("p","","z","z",""),State.PLAYING)
+        );
+    }
+
+    @Transactional
+    @Test
+    void guessLoseTest() {
+        Game game = service.startNewGame();
+
+        try {
+            service.guess(game.getId(), "ander");
+            service.guess(game.getId(), "ander");
+            service.guess(game.getId(), "ander");
+            service.guess(game.getId(), "ander");
+            Round round = service.guess(game.getId(), "ander");
+
+            assertEquals(State.LOST, round.getState());
+            assertEquals(5, round.getGuesses().size());
+            assertTrue(service.getGameById(game.getId()).isFinished());
+        } catch (NotFoundException e) {
+            fail();
+        }
+
+    }
+
+    @Transactional
+    @Test
+    void guessInvalidTest() {
+        Game game = service.startNewGame();
+        Long id = game.getId();
+
+        assertThrows(
+                IllegalArgumentException.class
+                , () -> service.guess(id, "anders")
+        );
+
+    }
+
 
 }
