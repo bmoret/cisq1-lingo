@@ -28,7 +28,6 @@ public class GameControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    // "id":13,"score":0,"activeRound":{"state":"PLAYING","hint":["p","","","",""],"attempts":[],"wordToGuess":null},"finished":false}
     @Test
     void newGameTest() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
@@ -49,13 +48,6 @@ public class GameControllerIntegrationTest {
 
     @Test
     void guessTest() throws Exception {
-//        RequestBuilder request = MockMvcRequestBuilders
-//                .get("/lingo")
-//                .content("{\"guess\":\"pizza\"}");
-//
-//        mockMvc.perform(request)
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(""));
         RequestBuilder request = MockMvcRequestBuilders
                 .patch("/lingo/1/guess")
                 .content("{\"guess\":\"pizza\"}")
