@@ -12,9 +12,9 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionHandlerController {
     @ExceptionHandler(value = NotFoundException.class)
-    public ResponseEntity<Map<String, String>> nfHandler(NotFoundException NF) {
+    public ResponseEntity<Map<String, String>> nfHandler(NotFoundException nf) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("Error",  NF.getMessage());
+        map.put("Error",  nf.getMessage());
 
         return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
     }

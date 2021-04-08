@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Import(CiTestConfiguration.class)
-public class GameServiceIntegrationTest {
+class GameServiceIntegrationTest {
 
     @Autowired
     private GameService service;

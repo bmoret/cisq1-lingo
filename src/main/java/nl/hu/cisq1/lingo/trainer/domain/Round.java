@@ -23,7 +23,9 @@ public class Round {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    public Round() {}
+    public Round() {
+        // Empty for Hibernate
+    }
 
     public Round(String wordToGuess) {
         this.wordToGuess = wordToGuess;

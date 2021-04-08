@@ -12,22 +12,22 @@ import java.util.stream.Collectors;
 
 @Service
 public class GameService {
-    private final SpringGameRepository REPOSITORY;
-    private final WordService WORD_SERVICE;
+    private final SpringGameRepository repository;
+    private final WordService wordService;
 
-    public GameService(SpringGameRepository repository, WordService word_service) {
-        REPOSITORY = repository;
-        WORD_SERVICE = word_service;
+    public GameService(SpringGameRepository repository, WordService wordService) {
+        this.repository = repository;
+        this.wordService = wordService;
     }
 
     public List<Game> getAllGames() throws NotFoundException {
-        List<Game> games = REPOSITORY.findAll();
+        List<Game> games = repository.findAll();
         if(games.isEmpty()) throw new NotFoundException("There are no games available.");
         return games;
     }
 
     public Game getGameById(Long id) throws NotFoundException {
-        return REPOSITORY.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("No game with this id: "+id+" found"));
     }
 
@@ -41,9 +41,9 @@ public class GameService {
     public Game startNewGame() {
         Game game = new Game();
 
-        game.newRound(WORD_SERVICE.provideRandomWord(game.getWordLengthForNextRound()));
+        game.newRound(wordService.provideRandomWord(game.getWordLengthForNextRound()));
 
-        REPOSITORY.save(game);
+        repository.save(game);
 
         return game;
     }
@@ -51,9 +51,9 @@ public class GameService {
     public Round startNewRound(Long id) throws NotFoundException, IllegalArgumentException {
         Game game = getGameById(id);
 
-        Round round = game.newRound(WORD_SERVICE.provideRandomWord(game.getWordLengthForNextRound()));
+        Round round = game.newRound(wordService.provideRandomWord(game.getWordLengthForNextRound()));
 
-        REPOSITORY.save(game);
+        repository.save(game);
 
         return round;
     }
@@ -63,7 +63,7 @@ public class GameService {
 
         Round round = game.makeGuess(guess);
 
-        REPOSITORY.save(game);
+        repository.save(game);
 
         return round;
     }

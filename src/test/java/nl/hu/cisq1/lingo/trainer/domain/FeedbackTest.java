@@ -49,9 +49,10 @@ class FeedbackTest {
     @Test
     @DisplayName("feedback is invalid when the word and feedback are not the same length")
     void wordHasInvalidFeedback() {
+        List<Mark> mark = List.of(Mark.CORRECT);
         assertThrows(
                 InvalidFeedbackException.class,
-                () -> new Feedback("woord", List.of(Mark.CORRECT))
+                () -> new Feedback("woord", mark)
         );
     }
 

@@ -14,10 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/lingo")
 public class GameController {
-    private final GameService SERVICE;
+    private final GameService service;
 
     public GameController(GameService service) {
-        SERVICE = service;
+        this.service = service;
     }
 
     public List<GameDTOResponse> makeResponseList(List<Game> games) {
@@ -32,14 +32,14 @@ public class GameController {
 
     @GetMapping
     public ResponseEntity<CollectionModel<GameDTOResponse>> getGames() throws NotFoundException {
-        CollectionModel<GameDTOResponse> results = CollectionModel.of(makeResponseList(SERVICE.getAllGames()));
+        CollectionModel<GameDTOResponse> results = CollectionModel.of(makeResponseList(service.getAllGames()));
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
     @GetMapping(path = "/active")
     public ResponseEntity<CollectionModel<GameDTOResponse>> getActiveGames() throws NotFoundException {
-        CollectionModel<GameDTOResponse> results = CollectionModel.of(makeResponseList(SERVICE.getActiveGames()));
+        CollectionModel<GameDTOResponse> results = CollectionModel.of(makeResponseList(service.getActiveGames()));
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
@@ -47,21 +47,21 @@ public class GameController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<GameDTOResponse> getGameById(@PathVariable Long id) throws NotFoundException {
-        return new ResponseEntity<>(new GameDTOResponse(SERVICE.getGameById(id)), HttpStatus.OK);
+        return new ResponseEntity<>(new GameDTOResponse(service.getGameById(id)), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<GameDTOResponse> startGame() {
-        return new ResponseEntity<>(new GameDTOResponse(SERVICE.startNewGame()), HttpStatus.CREATED);
+        return new ResponseEntity<>(new GameDTOResponse(service.startNewGame()), HttpStatus.CREATED);
     }
 
     @PatchMapping(path = "/{id}")
     public ResponseEntity<RoundDTOResponse> startRound(@PathVariable Long id) throws NotFoundException {
-        return new ResponseEntity<>(new RoundDTOResponse(SERVICE.startNewRound(id)), HttpStatus.OK);
+        return new ResponseEntity<>(new RoundDTOResponse(service.startNewRound(id)), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/{id}/guess")
-    public ResponseEntity<RoundDTOResponse> makeGuess(@PathVariable Long id, @RequestBody GuessDTORequest DTO) throws NotFoundException {
-        return new ResponseEntity<>(new RoundDTOResponse(SERVICE.guess(id, DTO.guess)), HttpStatus.OK);
+    public ResponseEntity<RoundDTOResponse> makeGuess(@PathVariable Long id, @RequestBody GuessDTORequest dto) throws NotFoundException {
+        return new ResponseEntity<>(new RoundDTOResponse(service.guess(id, dto.guess)), HttpStatus.OK);
     }
 }

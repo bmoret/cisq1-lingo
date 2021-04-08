@@ -16,12 +16,14 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<Round> rounds = new ArrayList<>();
 
-    public Game() {}
+    public Game() {
+        // Empty for Hibernate
+    }
 
     public Round newRound(String wordToGuess) throws IllegalArgumentException {
-        if (!isFinished()) {
+        if (Boolean.FALSE.equals(isFinished)) {
             List<Round> activeRounds = this.rounds.stream().filter(e -> e.getState() == State.PLAYING).collect(Collectors.toList());
-            if (activeRounds.size() == 0) {
+            if (activeRounds.isEmpty()) {
                 Round round = new Round(wordToGuess);
                 rounds.add(round);
                 round.setGame(this);
@@ -33,7 +35,7 @@ public class Game {
     }
 
     public Round makeGuess(String guess) throws IllegalArgumentException {
-        if (!isFinished()) {
+        if (Boolean.FALSE.equals(isFinished)) {
             Round activeRound = getActiveRound();
             if (activeRound == null) {
                 throw new IllegalArgumentException("No valid round found");
@@ -41,7 +43,7 @@ public class Game {
             activeRound.makeGuess(guess);
             if (activeRound.getState().equals(State.LOST)) {
                 isFinished = true;
-            } if (activeRound.getState().equals(State.WON)) {
+            } else if (activeRound.getState().equals(State.WON)) {
                 score += 1;
             }
             return activeRound;
@@ -86,10 +88,6 @@ public class Game {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public Boolean getFinished() {
-        return isFinished;
     }
 
     public void setFinished(Boolean finished) {

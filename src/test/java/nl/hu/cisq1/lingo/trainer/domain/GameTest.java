@@ -30,7 +30,7 @@ class GameTest {
 
         Round round2 = game.newRound("woord");
 
-        assertTrue(game.getRounds().size() == 2);
+        assertEquals(2, game.getRounds().size());
         assertTrue(game.getRounds().contains(round1));
         assertTrue(game.getRounds().contains(round2));
     }
@@ -181,7 +181,7 @@ class GameTest {
     void wordLengthStart() {
         Game game = new Game();
 
-//        assertEquals(7, game.getWordLength());
+        assertEquals(5, game.getWordLengthForNextRound());
     }
 
     @Test

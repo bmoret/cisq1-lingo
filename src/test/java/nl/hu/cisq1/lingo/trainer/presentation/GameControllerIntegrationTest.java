@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Import(CiTestConfiguration.class)
 @AutoConfigureMockMvc
-public class GameControllerIntegrationTest {
+class GameControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

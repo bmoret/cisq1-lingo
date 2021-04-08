@@ -25,6 +25,7 @@ public class Feedback {
     private Round round;
 
     public Feedback() {
+        // Empty for Hibernate
     }
 
     public Feedback(String attempt, List<Mark> mark) throws InvalidFeedbackException {
@@ -51,8 +52,8 @@ public class Feedback {
                 previousHint.add("");
             }
         }
-        for (Mark mark : this.mark) {
-            if (mark.equals(CORRECT)) {
+        for (Mark singleMark : this.mark) {
+            if (singleMark.equals(CORRECT)) {
                 previousHint.remove(charactarIndex);
                 previousHint.add(charactarIndex, wordToGuess.charAt(charactarIndex) + "");
             }
