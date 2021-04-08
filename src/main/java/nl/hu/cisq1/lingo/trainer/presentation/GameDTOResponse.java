@@ -2,8 +2,6 @@ package nl.hu.cisq1.lingo.trainer.presentation;
 
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 
-import java.util.Objects;
-
 public class GameDTOResponse {
     private Long id;
     private int score;

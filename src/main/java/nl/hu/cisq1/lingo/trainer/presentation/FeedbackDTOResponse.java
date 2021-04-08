@@ -4,7 +4,6 @@ import nl.hu.cisq1.lingo.trainer.domain.Feedback;
 import nl.hu.cisq1.lingo.trainer.domain.Mark;
 
 import java.util.List;
-import java.util.Objects;
 
 public class FeedbackDTOResponse {
     private String attempt;

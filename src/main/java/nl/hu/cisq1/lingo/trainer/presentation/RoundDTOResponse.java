@@ -6,7 +6,6 @@ import nl.hu.cisq1.lingo.trainer.domain.State;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class RoundDTOResponse {
     private State state;
