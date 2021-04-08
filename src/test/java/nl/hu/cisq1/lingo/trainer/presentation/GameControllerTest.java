@@ -6,6 +6,7 @@ import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.Round;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -28,6 +29,7 @@ class GameControllerTest {
     static GameController gameController = new GameController(gameService);
 
     @Test
+    @DisplayName("Testing if all games are returned on the getAllGames method")
     void getGames() {
         try {
             Game game = new Game();
@@ -42,6 +44,7 @@ class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing if the correct game is returned when getting a game by id")
     void getGameById() {
         try {
             Game game = new Game();
@@ -57,6 +60,7 @@ class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing if only active games are returned when getting the active games")
     void getActiveGames() {
         try {
             Game game = new Game();
@@ -71,6 +75,7 @@ class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing if a game is created correctly")
     void startNewGame() {
         Game game = new Game();
         GameDTOResponse DTO = new GameDTOResponse(game);
@@ -83,6 +88,7 @@ class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing if a round is started correctly")
     void startNewRound() {
         try {
             Game game = new Game();
@@ -100,6 +106,7 @@ class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing if a wrong guess gets the correct feedback")
     void guessWrong() {
         try {
             Game game = new Game();
@@ -121,6 +128,7 @@ class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing if a right guess gets the correct feedback")
     void guessRight() {
         try {
             Game game = new Game();
@@ -142,6 +150,7 @@ class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing if losing a game correctly changes the state")
     void guessLost() {
         try {
             Game game = new Game();

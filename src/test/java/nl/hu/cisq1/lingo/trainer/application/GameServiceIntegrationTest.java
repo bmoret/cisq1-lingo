@@ -5,6 +5,7 @@ import nl.hu.cisq1.lingo.CiTestConfiguration;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.Round;
 import nl.hu.cisq1.lingo.trainer.domain.State;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -29,6 +30,7 @@ public class GameServiceIntegrationTest {
     @Transactional
     @ParameterizedTest
     @MethodSource("provideGuesses")
+    @DisplayName("Tests if guesses return the correct hint and change the rounds state")
     void guessTest(String guess, List<String> hint, State state) {
         Game game = service.startNewGame();
 
@@ -55,6 +57,7 @@ public class GameServiceIntegrationTest {
 
     @Transactional
     @Test
+    @DisplayName("Tests if a game is over after losing a round")
     void guessLoseTest() {
         Game game = service.startNewGame();
 
@@ -76,6 +79,7 @@ public class GameServiceIntegrationTest {
 
     @Transactional
     @Test
+    @DisplayName("Tests if an error is thrown when a invalid guess is made")
     void guessInvalidTest() {
         Game game = service.startNewGame();
         Long id = game.getId();

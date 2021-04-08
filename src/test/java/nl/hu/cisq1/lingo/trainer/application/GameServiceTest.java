@@ -6,6 +6,7 @@ import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.Round;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -67,6 +68,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if all games are returned on the getAllGames method")
     void getAllGames() {
         try {
             List<Game> games = gameService.getAllGames();
@@ -78,6 +80,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if an error is thrown when there are no games")
     void getAllGamesNoAvailable() {
         when(gameRepository.findAll()).thenReturn(new ArrayList<>());
         assertThrows(
@@ -88,6 +91,7 @@ class GameServiceTest {
 
     @ParameterizedTest
     @MethodSource("provideGamesForGetGame")
+    @DisplayName("Testing if the correct game is returned when getting a game by id")
     void getGameById(Game game, Long id) {
         try {
             assertEquals(game, gameService.getGameById(id));
@@ -107,6 +111,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if an error is thrown when there is no game with an given id")
     void getGameByIdFail() {
         assertThrows(
                 NotFoundException.class,
@@ -115,6 +120,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if only active games are returned when getting the active games")
     void getActiveGames() {
         try {
             List<Game> games = gameService.getActiveGames();
@@ -126,6 +132,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if an error is thrown when there are no active games")
     void getActiveGamesNoAvailable() {
         when(gameRepository.findAll()).thenReturn(List.of(lostGame));
         assertThrows(
@@ -135,6 +142,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if a game is created correctly")
     void startNewGame() {
         Game game = gameService.startNewGame();
         assertEquals(1, game.getRounds().size());
@@ -142,6 +150,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if a round is started correctly")
     void startNewRound() {
         try {
             Game game = gameService.getGameById(2L);
@@ -155,6 +164,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if an error is thrown when a round is already active and a new one is started")
     void startNewRoundWithAnotherActive() {
         assertThrows(
                 IllegalArgumentException.class,
@@ -163,6 +173,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if an error is thrown when starting a new round on a finished game")
     void startNewRoundWhenGameIsOver() {
         assertThrows(
                 IllegalArgumentException.class,
@@ -171,6 +182,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if a guess is made correctly")
     void guess() {
         try {
             inRound1Game.getActiveRound();
@@ -186,6 +198,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if an error is thrown when a guess is made while no round is active")
     void guessWithNoActiveRound() {
         assertThrows(
                 IllegalArgumentException.class,
@@ -194,6 +207,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Testing if an error is thrown when a guess is made while a game is over")
     void guessWhenGameIsOver() {
         assertThrows(
                 IllegalArgumentException.class,

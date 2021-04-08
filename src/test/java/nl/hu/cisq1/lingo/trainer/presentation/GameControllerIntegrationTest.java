@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.presentation;
 
 import nl.hu.cisq1.lingo.CiTestConfiguration;
 import nl.hu.cisq1.lingo.trainer.domain.State;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,6 +30,7 @@ public class GameControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
+    @DisplayName("Testing if a game is started correctly")
     void newGameTest() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/lingo");
@@ -47,6 +49,7 @@ public class GameControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("Testing if a guess is made correctly")
     void guessTest() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .patch("/lingo/1/guess")
